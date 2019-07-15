@@ -1,0 +1,21 @@
+#!/bin/bash
+# Call this script with:
+# ./findreplace FolderToCopy NameOfCopy FindText ReplaceWith
+#grep -rl matchstring somedir/ | xargs sed -i 's/string1/string2/g'
+
+
+#if [ -z ${3+x} ]; then echo "var is unset"; else echo "var is set to '$3'"; fi
+
+#for ((i=0; i<=$#; i++)); do
+ # echo "parameter $i --> ${!i}"
+#done
+cp -r $1 $2
+
+mv $2/*$3*.data $2/$4.data
+ls -lt $2
+echo "Copy: $1"
+echo "To: $2"
+echo "Find: '$3'"
+echo "Replace with: '$4'"
+
+grep -rl $3 $2/ | xargs sed -i "s/$3/$4/g"
