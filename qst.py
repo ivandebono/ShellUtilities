@@ -5,7 +5,6 @@ from re import search,sub
 cmd    = ['qstat', '-xml']
 # get the xml output
 output = check_output (cmd)
-#output=sub('(?<=\d)[A-Z]{1}(?=\d)',' ', output)  # Remove 'T' in timestamp. Replace with space.
 keys   = [] # the feature names
 vals   = [] # the jobs including all features
 job    = [] # the features
@@ -14,10 +13,8 @@ lens   = [] # str length of different field
 states = {} # counting jobs with different state
 for line in output.split(b"\n"):
     # The start line of the job
-    #m1 = search (r'<job_list state="(.+)"', line)
     m1 = search (b'<job_list state="(.+)"', line)
     # The feature line
-    #m2 = search (r'<(.+?)>(.*?)</.+>', line)
     m2 = search (b'<(.+?)>(.*?)</.+>', line)
     if m1:
         # Get the state
