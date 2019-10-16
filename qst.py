@@ -55,7 +55,7 @@ for i, key in enumerate(keys):
     lens.append (max(klen, vlen))
 
 print( "  ".join ([x.decode("utf-8").strip('JB_').strip('JAT_').upper().ljust(lens[i]) for i,x in enumerate(keys)]))
-print( "+".join (['-'*(lens[i]+1) for i,_ in enumerate(newkeys)]))
+print( "+".join (['-'*(lens[i]+1) for i,_ in enumerate(keys)]))
 for val in vals:
     print( "  ".join ([x.decode("utf-8").ljust(lens[i]) for i,x in enumerate(val)]))
 print( "\nTotal jobs: %s%s" % (len(vals), "".join([", " + k.decode("utf-8") + ": " + str(v) for k,v in states.items()])))
