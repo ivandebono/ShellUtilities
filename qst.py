@@ -12,11 +12,13 @@ job    = [] # the features
 haskey = 0  # whether I have the extra 'state' key
 lens   = [] # str length of different field
 states = {} # counting jobs with different state
-for line in output.split("\n"):
+for line in output.split(b"\n"):
     # The start line of the job
-    m1 = search (r'<job_list state="(.+)"', line)
+    #m1 = search (r'<job_list state="(.+)"', line)
+    m1 = search (b'<job_list state="(.+)"', line)
     # The feature line
-    m2 = search (r'<(.+?)>(.*?)</.+>', line)
+    #m2 = search (r'<(.+?)>(.*?)</.+>', line)
+    m2 = search (b'<(.+?)>(.*?)</.+>', line)
     if m1:
         # Get the state
         state = m1.group(1)
@@ -30,7 +32,7 @@ for line in output.split("\n"):
 
         # If 'state' key is not added
         if haskey == 0:
-            keys = ['state']
+            keys = [b'state']
             haskey = 1
         # If it's already added
         elif haskey == 1:
@@ -55,9 +57,8 @@ for i, key in enumerate(keys):
     vlen = max (map(lambda x: len(x[i]), vals))
     lens.append (max(klen, vlen))
 
-print "  ".join ([x.strip('JB_').strip('AT_').upper().ljust(lens[i]) for i,x in enumerate(keys)])
-print "+".join (['-'*(lens[i]+1) for i,_ in enumerate(keys)])
+print( "  ".join ([x.decode("utf-8").strip('JB_').strip('JAT_').upper().ljust(lens[i]) for i,x in enumerate(keys)]))
+print( "+".join (['-'*(lens[i]+1) for i,_ in enumerate(newkeys)]))
 for val in vals:
-    print "  ".join ([x.ljust(lens[i]) for i,x in enumerate(val)])
-
-print "\nTotal jobs: %s%s" % (len(vals), "".join([", " + k + ": " + str(v) for k,v in states.items()]))
+    print( "  ".join ([x.decode("utf-8").ljust(lens[i]) for i,x in enumerate(val)]))
+print( "\nTotal jobs: %s%s" % (len(vals), "".join([", " + k.decode("utf-8") + ": " + str(v) for k,v in states.items()])))
